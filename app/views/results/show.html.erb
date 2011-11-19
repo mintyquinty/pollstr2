@@ -30,7 +30,7 @@ $(document).ready(function() {
 // data
 	var data = [
 <% @candidates.each do |candidate| %>
-		{ label: '<%= link_to candidate.first_name << " " << candidate.last_name, candidate %>',  data: <%= Vote.where(:candidate_id => candidate.id).count %>}<%= "," unless candidate == @candidates.last %>
+		{ label: '<%= link_to candidate.first_name << " " << candidate.last_name << " [" << candidate.party.name[0] <<"]", candidate %>',  data: <%= Vote.where(:candidate_id => candidate.id).count %>}<%= "," unless candidate == @candidates.last %>
 <% end %>
 	];
 
