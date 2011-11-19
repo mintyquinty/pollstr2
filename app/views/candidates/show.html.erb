@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>First name:</b>
+  <%= @candidate.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%= @candidate.last_name %>
+</p>
+
+<p>
+  <b>Party:</b>
+  <%= @candidate.party_id %>
+</p>
+
+<%
+  votes = Vote.where(:candidate_id => @candidate.id).count
+  totalvotes = Vote.count
+%>
+<p>How many votes ya got?
+  <%= votes %>
+</p>
+<p>So what percentage of the total is that?
+  <%= (votes.to_f / totalvotes * 100).floor %>% (out of <%= totalvotes %> votes to date)
+</p>
+
+<%= link_to 'Edit', edit_candidate_path(@candidate) %> |
+<%= link_to 'Back', candidates_path %>
