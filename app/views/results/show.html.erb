@@ -1,0 +1,59 @@
+<%= javascript_include_tag "flot/jquery.flot.min", "flot/jquery.flot.pie" %>
+
+<h1>Polling Results</H1>
+<div id="graph2" class="graph" style="width:400px;height:400px"></div>
+<%= link_to 'Vote Now', candidates_path %>
+
+
+<script type="text/javascript">
+
+	
+function pieHover(event, pos, obj) 
+{
+	if (!obj)
+                return;
+	percent = parseFloat(obj.series.percent).toFixed(2);
+	$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
+}
+
+function pieClick(event, pos, obj) 
+{
+	if (!obj)
+                return;
+	percent = parseFloat(obj.series.percent).toFixed(2);
+	alert(''+obj.series.label+': '+percent+'%');
+}
+
+
+
+$(document).ready(function() {
+// data
+	var data = [
+<% @candidates.each do |candidate| %>
+		{ label: '<%= link_to candidate.first_name << " " << candidate.last_name, candidate %>',  data: <%= Vote.where(:candidate_id => candidate.id).count %>}<%= "," unless candidate == @candidates.last %>
+<% end %>
+	];
+
+	// GRAPH 2
+	$.plot($("#graph2"), data, 
+	{
+		series: {
+			pie: { 
+				show: true,
+				radius: 1,
+				label: {
+					show: true,
+					radius: 2/3,
+					formatter: function(label, series){
+						return '<div style="font-size:14px;text-align:center;padding:2px;color:white;font-weight:bold;width:80px;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+					},
+					background: { opacity: 0.8 }
+				}
+			}
+		},
+		legend: {
+			show: false
+		}
+	});
+});
+</script>

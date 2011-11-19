@@ -5,6 +5,8 @@ CurrentPollstr::Application.routes.draw do
 
   match '/vote/(:id)' => 'candidates#vote'
 
+  match '/results' => 'results#show' 
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
