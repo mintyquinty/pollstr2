@@ -1,11 +1,12 @@
 class CandidatesController < ApplicationController
-  # GET /candidates
-  # GET /candidates.json
+  
   def vote
     Vote.create!({:candidate_id => params[:id]})
     redirect_to Candidate.find(params[:id])
   end
   
+  # GET /candidates
+  # GET /candidates.json
   def index
     @candidates = Candidate.all
 

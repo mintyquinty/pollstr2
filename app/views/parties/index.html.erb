@@ -3,17 +3,17 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Abbreviation</th>
-    <th></th>
+    <th>Abbr.</th>
+    <th># Candidates</th>
     <th></th>
     <th></th>
   </tr>
 
 <% @parties.each do |party| %>
   <tr>
-    <td><%= party.name %></td>
+    <td><%= link_to party.name, party %></td>
     <td><%= party.abbreviation %></td>
-    <td><%= link_to 'Show', party %></td>
+		<td><%= Candidate.where(:party_id=>party.id).count %>
     <td><%= link_to 'Edit', edit_party_path(party) %></td>
     <td><%= link_to 'Destroy', party, confirm: 'Are you sure?', method: :delete %></td>
   </tr>

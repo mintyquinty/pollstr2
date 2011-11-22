@@ -1,19 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>First name:</b>
-  <%= @candidate.first_name %>
-</p>
-
-<p>
-  <b>Last name:</b>
-  <%= @candidate.last_name %>
-</p>
-
-<p>
-  <b>Party:</b>
-  <%= @candidate.party_id %>
-</p>
+<h1><%= @candidate.first_name %> <%= @candidate.last_name %></h1>
+<h2>Running on the <%= link_to @candidate.party.name, @candidate.party %> ticket</h2>
 
 <%
   votes = Vote.where(:candidate_id => @candidate.id).count

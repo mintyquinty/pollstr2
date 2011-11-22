@@ -1,37 +1,34 @@
 <%= javascript_include_tag "flot/jquery.flot.min", "flot/jquery.flot.pie" %>
 
-<h1>Polling Results</H1>
+<h1>Polling Results</h1>
+<% if Vote.count > 1 %>
 <div id="graph2" class="graph" style="width:400px;height:400px"></div>
 <%= link_to 'Vote Now', candidates_path %>
 
 
 <script type="text/javascript">
-
-	
-function pieHover(event, pos, obj) 
-{
+function pieHover(event, pos, obj) {
 	if (!obj)
-                return;
+		return;
 	percent = parseFloat(obj.series.percent).toFixed(2);
-	$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
+	if (!window.$hover)
+		$hover = $('#hover');
+	$hover.html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
 }
 
-function pieClick(event, pos, obj) 
-{
+function pieClick(event, pos, obj) {
 	if (!obj)
-                return;
+		return;
 	percent = parseFloat(obj.series.percent).toFixed(2);
-	alert(''+obj.series.label+': '+percent+'%');
+	alert(obj.series.label+': '+percent+'%');
 }
-
-
 
 $(document).ready(function() {
 // data
 	var data = [
-<% @candidates.each do |candidate| %>
-		{ label: '<%= link_to candidate.first_name << " " << candidate.last_name << " [" << candidate.party.name[0] <<"]", candidate %>',  data: <%= Vote.where(:candidate_id => candidate.id).count %>}<%= "," unless candidate == @candidates.last %>
-<% end %>
+		<% @candidates.each do |candidate| %>
+			{ label: '<%= link_to candidate.first_name << " " << candidate.last_name << " [" << candidate.party.name[0] <<"]", candidate %>',  data: <%= Vote.where(:candidate_id => candidate.id).count %>}<%= "," unless candidate == @candidates.last %>
+		<% end %>
 	];
 
 	// GRAPH 2
@@ -57,3 +54,6 @@ $(document).ready(function() {
 	});
 });
 </script>
+<% else %>
+<p>No one's voted yet!</p>
+<% end %>
